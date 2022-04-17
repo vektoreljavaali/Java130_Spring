@@ -1,0 +1,40 @@
+1- https://start.spring.io/
+2- Bu adresten bir spring projesi oluşturacağız.
+3- ÖZelliklerimiz
+  * Project -> Gradle
+  * Spring Boot -> default ne ise o kalsın.
+  * Project Meta -> paket adı, projenin adı girilir.
+  * packaging -> JAR
+  * Java -> Jdk11
+  ** Bağımlılıklar(Dependsencies) -> SpringWeb
+4- En Altta genereted diyerek indiriyoruz.
+5- İndirilen paketi bir yere açıp, intellij idea üzerinde
+açıyoruz.
+6- Proje açılıp gerekli indirmeler tamamlandıktan sonra, resources altına "application.yml" dosyası oluşturuyoruz. Ayrıca "application.properties" dosyasını siliyoruz.
+7- Veritabanı işlemlerini gerçeklşetirmek için ilgili Db için gerekli olan jsbc driver ı bağımlılıklara eklemeliyiz. 
+8- https://mvnrepository.com/ giderek iligili driver için bağılmılılık linki "build.gradle" içinde dependencies in altına a eklenir.
+9- Spring gerekli veritabanı işlemlerini yerine getirebilmek için Spring Data Jpa(Java persistance Api) ye ihtiyaç duyar. bu nedenle spring-boot-starter-data-jpa yı dependencies içine  eklemeliyiz.
+10- gerekli eklemeleri yaptıktan sonra gradle buil edilmelidir. bunu yapmak için sağ üstte çıkan fil icon una tıklamak yeterlidir.
+11- bu işlermlerden sonra DB bağlantısı için gerekli olan ayar bilgilerini application.yml içine giriyoruz.
+ spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/Deneme
+    username: postgresql
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+12- Ana proje dizininin altına repository paketi açıyoruz. bunun altına kullanacağımız repoları "Interface" olarak açmalıyız. ve bunların birer repository olduğunu springe bildirmek için sınıfın üzerinde @Repostory anotasyonu eklemliyiz.
+13- repository içinde entity adında bir paket açarak. tüm varlıllarımızı(POJO) oluşturuyoruz. bu varlıklar Vt işlemleri içni kullanılacağından gerekli ORM anotasyonlarını eklemeliyiz.
+ - @Entity
+ - @Table
+ - @Id
+ - @GeneratedValue
+14- ilgili entitler için servis katmanını oluşturarak hepsi için servislerini yazıyoruz. yine burada bir servis sınıfının Spring tarafınfan işlenebilmesi için @Service anotasyonu sınıfın üzerinde eklenir
+15- servis içinde olması gereken temel işlemler yaqzılır. burada dikkat edilmesi gereken nokta ilgili servis katmanı respository kaymanı ile çalışır. bu nedenel reponun servis içnide kullanıması gereklidir. bunu sağlayabilmek için repository interface i sınıf içinde eklenir ve üzerinde totmatik injection işlemi için @Autowired anotasyonu eklenir.
+16- son olarak controller katmanı eklenir, burada ilgili varlıklarımızın kontrolleri son kullanıcı için gerekli olan end ponileri eklenir.
+
+
+  
